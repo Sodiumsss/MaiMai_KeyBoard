@@ -8,7 +8,7 @@
 #define TOTAL_BUTTON_COUNT 8
 
 //按键检测间隔，单位：毫秒
-#define BOUNCE_INTERVAL 5
+#define BOUNCE_INTERVAL 1
 
 //引脚
 int buttonPin[] = {4,2,20,18,19,21,5,3};
@@ -39,17 +39,21 @@ void loop() {
    //低电平按下
    buttonState[i] = (buttonBounce[i].read() == LOW);
    
-   if (buttonState[i] && !previousState[i]) { 
+   if (buttonState[i] && !previousState[i]) 
+   { 
+    previousState[i] = buttonState[i];
     Keyboard.press(buttonKey[i]);
 //    Serial.print("[+]");
 //    Serial.println(buttonKey[i]);
 
-   } else if (!buttonState[i] && previousState[i]) {
+   } 
+   else if (!buttonState[i] && previousState[i]) 
+   {
+    previousState[i] = buttonState[i];
     Keyboard.release(buttonKey[i]);
 //    Serial.print("[-]");
 //    Serial.println(buttonKey[i]);
    }
-   previousState[i] = buttonState[i];
   }
 
 }
